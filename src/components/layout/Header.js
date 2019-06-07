@@ -18,7 +18,7 @@ const Header = (props) => {
 
   return (
     <AppBar position="relative">
-      <Tabs value={current} variant="fullWidth" onChange={changeHandler}>
+      <Tabs value={current} onChange={changeHandler}>
         <LinkTab label="Main" to={route.Index}/>
         <LinkTab label="Items" to={route.Items}/>
       </Tabs>
