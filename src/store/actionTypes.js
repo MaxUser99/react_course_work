@@ -1,5 +1,5 @@
 const actionsTypes = {
-  SAY_HELLO: "SAY_HELLO"
+  LOAD: "LOAD_DATA"
 };
 
 export default actionsTypes;

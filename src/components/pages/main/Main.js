@@ -6,7 +6,7 @@ import Button from "@material-ui/core/Button"
 import { makeStyles } from '@material-ui/core/styles';
 import { connect } from "react-redux";
 import { route } from "constants/routes";
-import { SayHello } from "store/actions";
+import actionTypes from "../../../store/actionTypes";
 
 const useStyles = makeStyles(theme => ({
   mainContent: {
@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const MainPage = ({ history, sayHello }) => {
+const MainPage = ({ history, trySaga }) => {
   const continueClickHandler = () => {
     history.push(route.Items);
   };
@@ -33,7 +33,7 @@ const MainPage = ({ history, sayHello }) => {
       <div>
         <Grid container spacing={2} justify="center">
           <Grid item>
-            <Button variant="contained" color="primary" onClick={() => sayHello()}>
+            <Button variant="contained" color="primary" onClick={trySaga}>
               Login by Facebook
             </Button>
           </Grid>
@@ -49,7 +49,7 @@ const MainPage = ({ history, sayHello }) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  sayHello: () => dispatch(SayHello())
+  trySaga: () => dispatch({ type: actionTypes.LOAD })
 });
 
 export default connect(null, mapDispatchToProps)(MainPage);
