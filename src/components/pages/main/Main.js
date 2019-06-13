@@ -4,6 +4,9 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button"
 import { makeStyles } from '@material-ui/core/styles';
+import { connect } from "react-redux";
+import { route } from "constants/routes";
+import { SayHello } from "store/actions";
 
 const useStyles = makeStyles(theme => ({
   mainContent: {
@@ -12,28 +15,31 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const MainPage = () => {
+const MainPage = ({ history, sayHello }) => {
+  const continueClickHandler = () => {
+    history.push(route.Items);
+  };
+
   const classes = useStyles();
   return (
     <Container className={classes.mainContent} maxWidth="sm">
       <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-        Album layout
+        Course Work App
       </Typography>
       <Typography variant="h5" align="center" color="textSecondary" paragraph>
-        Something short and leading about the collection below—its contents, the creator, etc.
-        Make it short and sweet, but not too short so folks don&apos;t simply skip over it
-        entirely.
+        Welcome to my chort and convinient course work app, also created on React and
+        with some 3d party libraries, such as redux, saga, axios and material-ui
       </Typography>
       <div>
         <Grid container spacing={2} justify="center">
           <Grid item>
-            <Button variant="contained" color="primary">
-              Main call to action
+            <Button variant="contained" color="primary" onClick={() => sayHello()}>
+              Login by Facebook
             </Button>
           </Grid>
           <Grid item>
-            <Button variant="outlined" color="primary">
-              Secondary action
+            <Button variant="outlined" color="primary" onClick={continueClickHandler}>
+              Continue as guest
             </Button>
           </Grid>
         </Grid>
@@ -42,4 +48,8 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+const mapDispatchToProps = dispatch => ({
+  sayHello: () => dispatch(SayHello())
+});
+
+export default connect(null, mapDispatchToProps)(MainPage);

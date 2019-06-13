@@ -1,24 +1,17 @@
-import React, {useState} from "react";
+import React from "react";
 import { withRouter } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import {LinkTab} from "../ui-kit";
 import {route} from "constants/routes";
 
-const Header = (props) => {
-  const [current, currentChangeHandler] = useState(() => {
-    const { location : { pathname} } = props;
-    const i = Object.values(route).indexOf(pathname);
-    return i < 0 ? 0 : i;
-  });
-
-  function changeHandler(e, val) {
-    currentChangeHandler(val);
-  }
+const Header = ({ location : { pathname} }) => {
+  const currentRouteIndex = Object.values(route).indexOf(pathname);
+  const activeTabIndex = currentRouteIndex < 0 ? 0 : currentRouteIndex;
 
   return (
     <AppBar position="relative">
-      <Tabs value={current} onChange={changeHandler}>
+      <Tabs value={activeTabIndex}>
         <LinkTab label="Main" to={route.Index}/>
         <LinkTab label="Items" to={route.Items}/>
       </Tabs>
