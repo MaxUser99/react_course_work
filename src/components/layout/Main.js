@@ -1,6 +1,6 @@
 import React from "react";
 import {route} from "constants/routes";
-import {IndexPage, ItemsPage} from "./mainContent";
+import { MainPage, ItemsPage } from "../pages";
 import { Switch, Route, Redirect } from "react-router-dom";
 
 const Main = () => {
@@ -8,7 +8,7 @@ const Main = () => {
     <div >
     <Switch>
       <Route path={route.Items} component={ItemsPage}/>
-      <Route exact path={route.Index} component={IndexPage}/>
+      <Route exact path={route.Index} component={MainPage}/>
       <Route render={() => <Redirect to={route.Index}/>} />
     </Switch>
     </div>

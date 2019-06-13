@@ -12,7 +12,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const IndexPage = () => {
+const MainPage = () => {
   const classes = useStyles();
   return (
     <Container className={classes.mainContent} maxWidth="sm">
@@ -42,4 +42,4 @@ const IndexPage = () => {
   );
 };
 
-export default IndexPage;
+export default MainPage;

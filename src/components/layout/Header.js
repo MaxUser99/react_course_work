@@ -1,9 +1,9 @@
 import React, {useState} from "react";
+import { withRouter } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
+import Tabs from "@material-ui/core/Tabs";
 import {LinkTab} from "../ui-kit";
 import {route} from "constants/routes";
-import Tabs from "@material-ui/core/Tabs";
-import { withRouter } from "react-router-dom";
 
 const Header = (props) => {
   const [current, currentChangeHandler] = useState(() => {
