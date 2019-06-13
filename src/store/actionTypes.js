@@ -1,5 +1,10 @@
 const actionsTypes = {
-  LOAD: "LOAD_DATA"
+  START_LOAD: "LOAD_DATA",
+  ON_LOAD_FAILURE: "ON_LOAD_FAILURE",
+  STOP_LOADING: "STOP_LOADING",
+  ON_LOAD_FINISH: "ON_LOAD_FINISH",
+  ADD_ITEMS: "ADD_ITEMS",
+  FILTER_ITEMS: "FILTER_ITEMS",
 };
 
 export default actionsTypes;

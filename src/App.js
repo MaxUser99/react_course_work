@@ -4,6 +4,7 @@ import {Header, Main} from "./components/layout";
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Provider } from "react-redux";
 import { store } from "store";
+require('dotenv').config();
 
 function App() {
   return (
