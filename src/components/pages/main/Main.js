@@ -4,9 +4,7 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button"
 import { makeStyles } from '@material-ui/core/styles';
-import { connect } from "react-redux";
 import { route } from "constants/routes";
-import actionTypes from "../../../store/actionTypes";
 
 const useStyles = makeStyles(theme => ({
   mainContent: {
@@ -48,8 +46,4 @@ const MainPage = ({ history, trySaga }) => {
   );
 };
 
-const mapDispatchToProps = dispatch => ({
-  trySaga: () => dispatch({ type: actionTypes.LOAD })
-});
-
-export default connect(null, mapDispatchToProps)(MainPage);
+export default MainPage;
