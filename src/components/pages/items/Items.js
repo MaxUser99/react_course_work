@@ -1,20 +1,22 @@
 import React, { useEffect } from "react";
 import { makeStyles } from '@material-ui/core/styles';
-import GridList from "@material-ui/core/GridList";
+import CircularProggress from "@material-ui/core/CircularProgress";
 import { connect } from "react-redux";
-import GridListTile from "@material-ui/core/GridListTile";
-import GridListTileBar from "@material-ui/core/GridListTileBar";
 import { startLoading } from "store/actions";
 import { loadStatus } from "constants/loadStatus";
+import { ItemList, ItemHeader } from "./components";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    padding: "50px",
+    height: "100%",
+    width: "100%",
     display: 'flex',
     flexWrap: 'wrap',
-    justifyContent: 'space-around',
     overflow: 'hidden',
     backgroundColor: theme.palette.background.paper,
+  },
+  progress: {
+    margin: "auto"
   }
 }));
 
@@ -28,28 +30,12 @@ const ItemsPage = ({ items, itemsLoadStatus, startLoading }) => {
 
   return (
     <div className={styles.root}>
-      <GridList
-        cols={5}
-        cellHeight={180}
-        spacing={10}
-      >
-        {
-          items.map(item => {
-            return (
-              <GridListTile
-                key={item.id}
-
-                >
-                <img
-                  src={item.image}
-                  alt=""
-                />
-                <GridListTileBar title={item.name} />
-              </GridListTile>
-            );
-          })
-        }
-      </GridList>
+      <ItemHeader count={items.length}/>
+      {
+        items.length
+          ? <ItemList items={items} />
+          : <CircularProggress className={styles.progress}/>
+      }
     </div>
   );
 };

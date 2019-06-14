@@ -5,7 +5,12 @@ import { Switch, Route, Redirect } from "react-router-dom";
 
 const Main = () => {
   return(
-    <div >
+    <div style={{
+      display: "flex",
+      flexDirection: "column",
+      minHeight: "94%",
+    }}
+    >
     <Switch>
       <Route path={route.Items} component={ItemsPage}/>
       <Route exact path={route.Index} component={MainPage}/>
