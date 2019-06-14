@@ -2,7 +2,7 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
-import {LinkTab} from "../ui-kit";
+import {LinkTab} from "components/ui-kit";
 import {route} from "constants/routes";
 
 const Header = ({ location : { pathname} }) => {

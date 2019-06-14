@@ -2,12 +2,14 @@ import React, { useEffect } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import GridList from "@material-ui/core/GridList";
 import { connect } from "react-redux";
+import GridListTile from "@material-ui/core/GridListTile";
+import GridListTileBar from "@material-ui/core/GridListTileBar";
 import { startLoading } from "store/actions";
 import { loadStatus } from "constants/loadStatus";
-import { ItemCard } from "./components";
 
 const useStyles = makeStyles(theme => ({
   root: {
+    padding: "50px",
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
@@ -23,12 +25,29 @@ const ItemsPage = ({ items, itemsLoadStatus, startLoading }) => {
       startLoading();
     }
   }, []);
-  console.log("items: ", items);
+
   return (
-    <div>
-      <GridList>
+    <div className={styles.root}>
+      <GridList
+        cols={5}
+        cellHeight={180}
+        spacing={10}
+      >
         {
-          items.map(item => <ItemCard key={item.id} person={item}/>)
+          items.map(item => {
+            return (
+              <GridListTile
+                key={item.id}
+
+                >
+                <img
+                  src={item.image}
+                  alt=""
+                />
+                <GridListTileBar title={item.name} />
+              </GridListTile>
+            );
+          })
         }
       </GridList>
     </div>
