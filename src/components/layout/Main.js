@@ -8,7 +8,7 @@ const Main = () => {
     <div style={{
       display: "flex",
       flexDirection: "column",
-      minHeight: "94%",
+      minHeight: "100%",
     }}
     >
     <Switch>

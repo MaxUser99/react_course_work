@@ -13,35 +13,43 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexWrap: 'wrap',
     overflow: 'hidden',
+    justifyContent: "center",
     backgroundColor: theme.palette.background.paper,
   },
   progress: {
-    margin: "auto"
+    margin: "auto",
+    position: "absolute",
+    top: "50%"
   }
 }));
 
-const ItemsPage = ({ items, itemsLoadStatus, startLoading }) => {
+const ItemsPage = (props) => {
+  const { items, perPage, currentPage } = props;
   const styles = useStyles();
   useEffect(() => {
+    const { itemsLoadStatus, startLoading } = props;
     if(itemsLoadStatus === loadStatus.NONE) {
       startLoading();
     }
   }, []);
 
+  const begin = perPage * currentPage;
+  const end = begin + perPage;
+  const itemsToShow = items.slice(begin, end);
   return (
     <div className={styles.root}>
-      <ItemHeader count={items.length}/>
+      <ItemHeader/>
       {
-        items.length
-          ? <ItemList items={items} />
+        itemsToShow.length
+          ? <ItemList items={itemsToShow} />
           : <CircularProggress className={styles.progress}/>
       }
     </div>
   );
 };
 
-const mapStateToProps = ({ items, itemsLoadStatus }) => ({
-  items, itemsLoadStatus
+const mapStateToProps = ({ items, itemsLoadStatus, perPage, currentPage }) => ({
+  items, itemsLoadStatus, perPage, currentPage
 });
 
 const mapDispatchToProps = dispatch => ({

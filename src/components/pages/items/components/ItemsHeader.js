@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import Typography from "@material-ui/core/Typography";
+import { connect } from "react-redux";
+import PageSwitch from "./PageSwitch";
+import { changePage } from "store/actions";
 
-const ItemHeader = ({ count  }) => {
+const ItemHeader = ({ showMenu, currentPage, pageCount, switchPage }) => {
+
   return (
     <Typography
       style={{
-        textAlign: "center",
+        textAlign: "right",
         width: "100%",
         margin: "16px"
       }}
@@ -14,9 +18,23 @@ const ItemHeader = ({ count  }) => {
       color="textSecondary"
       paragraph
     >
-      Items is currently on load. Already loaded: {count}
+      <PageSwitch
+        currentPage={currentPage}
+        pageCount={pageCount}
+        changeHandler={switchPage}
+      />
     </Typography>
   );
 };
 
-export default ItemHeader;
+const mapStateToProps = state => ({
+  showMenu: state.items.length > state.perPage,
+  currentPage: state.currentPage,
+  pageCount: Math.ceil(state.items.length / state.perPage)
+});
+
+const mapDispatchToProps = dispatch => ({
+  switchPage: (newPage) => dispatch(changePage(newPage))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ItemHeader);

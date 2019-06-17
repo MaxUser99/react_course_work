@@ -17,17 +17,17 @@ const ItemList = ({items}) => {
       }}
       cols={5}
       cellHeight={180}
-      spacing={10}
+      spacing={20}
     >
       {
         items.map(item => {
           return (
-              <Fade key={item.id} in={true} timeout={1000}>
-                <GridListTile>
-                  <img src={item.image} alt="item"/>
-                  <GridListTileBar title={item.name}/>
-                </GridListTile>
-              </Fade>
+            <Fade key={item.id} in={true} timeout={1000}>
+              <GridListTile>
+                <img src={item.image} alt="item"/>
+                <GridListTileBar title={item.name}/>
+              </GridListTile>
+            </Fade>
           )
         })
       }

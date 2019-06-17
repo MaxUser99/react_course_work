@@ -7,3 +7,4 @@ export const onLoadFinish = () => ({ type: actionTypes.ON_LOAD_FINISH });
 export const addItems = (items) => ({ type: actionTypes.ADD_ITEMS, items });
 export const addItem = (item) => ({ type: actionTypes.ADD_ITEM, item });
 export const filterItems = () => ({ type: actionTypes.FILTER_ITEMS });
+export const changePage = newPageValue => ({ type: actionTypes.CHANGE_PAGE, newPageValue });

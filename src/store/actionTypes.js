@@ -6,6 +6,7 @@ const actionsTypes = {
   ADD_ITEMS: "ADD_ITEMS",
   ADD_ITEM: "ADD_ITEM",
   FILTER_ITEMS: "FILTER_ITEMS",
+  CHANGE_PAGE: "CHANGE_PAGE"
 };
 
 export default actionsTypes;

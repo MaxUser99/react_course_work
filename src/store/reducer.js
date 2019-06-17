@@ -11,6 +11,8 @@ const reducer = (state, action) => {
       return { ...state, items: [ ...state.items, action.item ] };
     case actionTypes.ADD_ITEMS:
       return { ...state, items: [ ...state.items, ...action.items ] };
+    case actionTypes.CHANGE_PAGE:
+      return { ...state, currentPage: action.newPageValue };
     default:
       return state;
   }
