@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import PageSwitch from "./PageSwitch";
 import {changePage} from "store/actions";
 
-const ItemHeader = ({showMenu, currentPage, pageCount, switchPage}) => (
+const ItemHeader = ({currentPage, pageCount, switchPage, filterName}) => (
   <div style={{
     padding: "0 20px",
     width: "100%",
@@ -15,6 +15,7 @@ const ItemHeader = ({showMenu, currentPage, pageCount, switchPage}) => (
       style={{marginRight: "20px"}}
       margin="dense"
       placeholder="search by name"
+      onChange={filterName}
     />
     <PageSwitch
       currentPage={currentPage}
@@ -24,14 +25,8 @@ const ItemHeader = ({showMenu, currentPage, pageCount, switchPage}) => (
   </div>
 );
 
-const mapStateToProps = state => ({
-  showMenu: state.items.length > state.perPage,
-  currentPage: state.currentPage,
-  pageCount: Math.ceil(state.items.length / state.perPage)
-});
-
 const mapDispatchToProps = dispatch => ({
   switchPage: (newPage) => dispatch(changePage(newPage))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ItemHeader);
+export default connect(null, mapDispatchToProps)(ItemHeader);

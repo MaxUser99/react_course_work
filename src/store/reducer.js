@@ -13,6 +13,11 @@ const reducer = (state, action) => {
       return { ...state, items: [ ...state.items, ...action.items ] };
     case actionTypes.CHANGE_PAGE:
       return { ...state, currentPage: action.newPageValue };
+    case actionTypes.FILTER_ITEMS:
+      return { ...state, currentPage: 0, filters: { ...state.filters, [action.propName] : action.value } };
+    case actionTypes.EDIT_ITEM:
+      const updatedItems = state.items.map(x => x.id === action.item.id ? action.item : x);
+      return { ...state, items: updatedItems };
     default:
       return state;
   }

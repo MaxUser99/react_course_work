@@ -3,14 +3,20 @@ import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
 import Fade from "@material-ui/core/Fade";
+import { CardDialog } from "../dialogs";
 
 const ItemList = ({ items }) => {
   const [hoveredID, hoverChange] = useState(-1);
+  const [activePersonID, onActivePersonIDChange] = useState(0);
 
   const hoverHandler = (e) => {
     hoverChange(e.currentTarget.getAttribute("itemid"));
   };
   const unhoverHandler = () => hoverChange(-1);
+  const tileClickHandler = ({ currentTarget }) => {
+    const itemID = currentTarget.getAttribute("itemid");
+    onActivePersonIDChange(itemID);
+  };
 
   return (
     <GridList
@@ -32,7 +38,7 @@ const ItemList = ({ items }) => {
           return (
             <Fade key={item.id} in={true} timeout={1000}>
               <GridListTile
-                onClick={(e) => { console.log(e.currentTarget.getAttribute("itemid")) }}
+                onClick={tileClickHandler}
                 itemID={item.id}
                 onMouseOver={hoverHandler}
                 onMouseLeave={unhoverHandler}
@@ -61,6 +67,12 @@ const ItemList = ({ items }) => {
           )
         })
       }
+      <CardDialog
+        isOpen={activePersonID > 0}
+        personId={activePersonID}
+        closeHandler={() => onActivePersonIDChange(0)}
+        flag={activePersonID > 0}
+      />
     </GridList>
   );
 };
@@ -68,7 +80,7 @@ const ItemList = ({ items }) => {
 function areEqual({ items : prevItems }, { items : newItems }) {
   const equalLengths = prevItems.length === newItems.length;
   return equalLengths && newItems.reduce(
-    (flag, item, i) => (flag && item.id === prevItems[i].id),
+    (flag, item, i) => (flag && item === prevItems[i]),
     true
   );
 }
