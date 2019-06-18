@@ -1,31 +1,28 @@
-import React, { useState } from "react";
-import Typography from "@material-ui/core/Typography";
-import { connect } from "react-redux";
+import React from "react";
+import {TextField} from "@material-ui/core";
+import {connect} from "react-redux";
 import PageSwitch from "./PageSwitch";
-import { changePage } from "store/actions";
+import {changePage} from "store/actions";
 
-const ItemHeader = ({ showMenu, currentPage, pageCount, switchPage }) => {
-
-  return (
-    <Typography
-      style={{
-        textAlign: "right",
-        width: "100%",
-        margin: "16px"
-      }}
-      variant="h5"
-      align="center"
-      color="textSecondary"
-      paragraph
-    >
-      <PageSwitch
-        currentPage={currentPage}
-        pageCount={pageCount}
-        changeHandler={switchPage}
-      />
-    </Typography>
-  );
-};
+const ItemHeader = ({showMenu, currentPage, pageCount, switchPage}) => (
+  <div style={{
+    padding: "0 20px",
+    width: "100%",
+    display: "flex",
+    justifyContent: "flex-end"
+  }}>
+    <TextField
+      style={{marginRight: "20px"}}
+      margin="dense"
+      placeholder="search by name"
+    />
+    <PageSwitch
+      currentPage={currentPage}
+      pageCount={pageCount}
+      changeHandler={switchPage}
+    />
+  </div>
+);
 
 const mapStateToProps = state => ({
   showMenu: state.items.length > state.perPage,

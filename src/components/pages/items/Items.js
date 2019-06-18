@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, Suspense } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProggress from "@material-ui/core/CircularProgress";
 import { connect } from "react-redux";
 import { startLoading } from "store/actions";
 import { loadStatus } from "constants/loadStatus";
-import { ItemList, ItemHeader } from "./components";
+import { ItemList } from "./components";
+const ItemHeader = React.lazy(() => import("./components/ItemsHeader"));
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -38,7 +39,9 @@ const ItemsPage = (props) => {
   const itemsToShow = items.slice(begin, end);
   return (
     <div className={styles.root}>
-      <ItemHeader/>
+      <Suspense fallback={<span>loading</span>}>
+        <ItemHeader/>
+      </Suspense>
       {
         itemsToShow.length
           ? <ItemList items={itemsToShow} />

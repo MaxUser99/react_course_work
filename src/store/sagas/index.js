@@ -11,7 +11,7 @@ function getAPIcall(url) {
 
 function* addCollection(list) {
   const flag = yield select(doesFirstPageHaveItems);
-  const delaySpan = flag ? 600 : 300;
+  const delaySpan = flag ? 600 : 100;
   for (const person of list) {
     yield delay(delaySpan);
     yield put(addItem(person))
