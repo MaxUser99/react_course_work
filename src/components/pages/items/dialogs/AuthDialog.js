@@ -2,7 +2,7 @@ import React from "react";
 import {Dialog, withMobileDialog} from "@material-ui/core";
 
 const AuthDialog = ({ fullScreen, isOpen, closeHandler }) => {
-
+/*
   return (
     <Dialog
       fullWidth
@@ -11,6 +11,8 @@ const AuthDialog = ({ fullScreen, isOpen, closeHandler }) => {
       open={isOpen}
     ></Dialog>
   );
+  */
+return <div></div>;
 };
 
 export default withMobileDialog()(AuthDialog);

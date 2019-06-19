@@ -58,7 +58,7 @@ const ItemsPage = (props) => {
       </Suspense>
       {
         itemsToShow.length
-          ? <ItemList items={itemsToShow}/>
+          ? <ItemList items={itemsToShow} />
           : <CircularProggress className={styles.progress}/>
       }
     </div>

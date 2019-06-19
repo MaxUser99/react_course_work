@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
@@ -6,10 +6,32 @@ import Fade from "@material-ui/core/Fade";
 import { CardDialog } from "../dialogs";
 import { withRouter } from "react-router-dom";
 import { route } from "constants/routes";
+import { connect } from "react-redux";
+import { changePage } from "store/actions";
 
-const ItemList = ({ items, history, match }) => {
+const ItemList = ({ items, allItems, switchPage, currentPage, perPage, history, match }) => {
   const [hoveredID, hoverChange] = useState(-1);
-  const [activePersonID, onActivePersonIDChange] = useState(match.params.id);
+
+  const [activePersonID, onActivePersonIDChange] = useState(() => {
+    const { params : { id }} = match;
+    const itemID = +id;
+    const includes = allItems.some(x => x.id === itemID);
+    return includes ? itemID : null;
+  });
+
+  useEffect(() => {
+    const { params : { id }} = match;
+    if(!activePersonID && id) {
+      history.push(route.Items);
+    } else if(activePersonID) {
+      const existOnPage = items.some(x => x.id === activePersonID);
+      if(!existOnPage) {
+        const index = allItems.findIndex(x => x.id === activePersonID);
+        const targetPage = Math.floor(index / perPage);
+        switchPage(targetPage);
+      }
+    }
+  });
   const hoverHandler = ({ currentTarget }) => {
     hoverChange(currentTarget.getAttribute("itemid"));
   };
@@ -18,7 +40,7 @@ const ItemList = ({ items, history, match }) => {
 
   const tileClickHandler = ({ currentTarget }) => {
     const itemID = currentTarget.getAttribute("itemid");
-    onActivePersonIDChange(itemID);
+    onActivePersonIDChange(+itemID);
     history.push(`${itemID}`);
   };
 
@@ -99,6 +121,17 @@ function areEqual({ items : prevItems }, { items : newItems }) {
     (flag, item, i) => (flag && item === prevItems[i]),
     true
   );
+  // return false;
 }
 
-export default React.memo(withRouter(ItemList), areEqual);
+const mapStateToProps = state => ({
+  allItems: state.items,
+  perPage: state.perPage,
+  currentPage: state.currentPage
+});
+
+const mapDispatchToProps = dispatch => ({
+  switchPage: (newPage) => dispatch(changePage(newPage))
+});
+
+export default React.memo(connect(mapStateToProps, mapDispatchToProps)(withRouter(ItemList)), areEqual);
