@@ -5,15 +5,8 @@ import Tabs from "@material-ui/core/Tabs";
 import {LinkTab} from "components/ui-kit";
 import {route} from "constants/routes";
 
-const Header = ({ location : { pathname}, match }) => {
-  const currentRouteIndex = Object.values(route).findIndex((r, i) => {
-    const t = pathname.match(r);
-    console.log("t: ", t);
-
-    return pathname.match(r) ? i : -1
-  });
-  // const currentRouteIndex = Object.values(route).findIndex((r, i) => !!pathname.match(r));
-  console.log("index: ", currentRouteIndex);
+const Header = ({ location : { pathname} }) => {
+  const currentRouteIndex = Object.values(route).findIndex((r, i) => r.match(pathname) ? -1 : i);
   const activeTabIndex = currentRouteIndex < 0 ? 0 : currentRouteIndex;
 
   return (

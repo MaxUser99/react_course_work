@@ -8,11 +8,10 @@ import { withRouter } from "react-router-dom";
 import { route } from "constants/routes";
 
 const ItemList = ({ items, history, match }) => {
-  // console.log("rest: ", match.params.id);
   const [hoveredID, hoverChange] = useState(-1);
   const [activePersonID, onActivePersonIDChange] = useState(match.params.id);
-  const hoverHandler = (e) => {
-    hoverChange(e.currentTarget.getAttribute("itemid"));
+  const hoverHandler = ({ currentTarget }) => {
+    hoverChange(currentTarget.getAttribute("itemid"));
   };
 
   const unhoverHandler = () => hoverChange(-1);
@@ -20,7 +19,7 @@ const ItemList = ({ items, history, match }) => {
   const tileClickHandler = ({ currentTarget }) => {
     const itemID = currentTarget.getAttribute("itemid");
     onActivePersonIDChange(itemID);
-    history.push(`${match.path}${itemID}`);
+    history.push(`${itemID}`);
   };
 
   const dialogCloseHandler = () => {
