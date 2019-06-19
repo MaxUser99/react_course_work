@@ -13,6 +13,7 @@
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
     "redux": "^4.0.1",
+    "redux-localstorage-simple": "^2.1.6",
     "redux-saga": "^1.0.3"
   },
   "scripts": {

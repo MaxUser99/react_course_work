@@ -47,7 +47,6 @@ const ItemsPage = (props) => {
   const begin = perPage * currentPage;
   const end = begin + perPage;
   const itemsToShow = filteredItems.slice(begin, end);
-  console.log("rick: ", itemsToShow[0]);
   return (
     <div className={styles.root}>
       <Suspense fallback={<span>loading</span>}>

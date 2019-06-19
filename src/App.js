@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {BrowserRouter} from "react-router-dom";
 import {Header, Main, Footer } from "./components/layout";
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -8,6 +8,7 @@ import "./general.css";
 require('dotenv').config();
 
 function App() {
+
 
   return (
     <div style={{

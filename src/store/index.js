@@ -1,11 +1,19 @@
 import { createStore, applyMiddleware } from "redux";
 import createSagaMiddleware from "redux-saga";
 import reducer from "./reducer";
-import { initialState } from "./initialState";
 import watcherSaga from "./sagas";
+import { save, load } from "redux-localstorage-simple";
+import {initialState} from "./initialState";
 
+const storageName = "course_work";
 const sagaMiddleware = createSagaMiddleware();
-const store = createStore(reducer, initialState, applyMiddleware(sagaMiddleware));
+const middlewares = [save({ namespace: storageName }), sagaMiddleware];
+const createStoreWithMiddleware = applyMiddleware(...middlewares)(createStore);
+const store = createStoreWithMiddleware(reducer, load(
+  {
+    preloadedState: initialState,
+    namespace: storageName
+  }
+  ));
 sagaMiddleware.run(watcherSaga);
-
 export { store };

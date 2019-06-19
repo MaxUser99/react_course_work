@@ -1,5 +1,16 @@
 import React from "react";
+import {Dialog, withMobileDialog} from "@material-ui/core";
 
-const AuthDialog = () => (<div>auth dialog</div>);
+const AuthDialog = ({ fullScreen, isOpen, closeHandler }) => {
 
-export default AuthDialog;
+  return (
+    <Dialog
+      fullWidth
+      fullScreen={fullScreen}
+      onClose={closeHandler}
+      open={isOpen}
+    ></Dialog>
+  );
+};
+
+export default withMobileDialog()(AuthDialog);

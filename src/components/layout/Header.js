@@ -5,14 +5,21 @@ import Tabs from "@material-ui/core/Tabs";
 import {LinkTab} from "components/ui-kit";
 import {route} from "constants/routes";
 
-const Header = ({ location : { pathname} }) => {
-  const currentRouteIndex = Object.values(route).indexOf(pathname);
+const Header = ({ location : { pathname}, match }) => {
+  const currentRouteIndex = Object.values(route).findIndex((r, i) => {
+    const t = pathname.match(r);
+    console.log("t: ", t);
+
+    return pathname.match(r) ? i : -1
+  });
+  // const currentRouteIndex = Object.values(route).findIndex((r, i) => !!pathname.match(r));
+  console.log("index: ", currentRouteIndex);
   const activeTabIndex = currentRouteIndex < 0 ? 0 : currentRouteIndex;
 
   return (
     <AppBar position="relative">
       <Tabs value={activeTabIndex}>
-        <LinkTab label="Main" to={route.Index}/>
+        <LinkTab label="Home" to={route.Index}/>
         <LinkTab label="Items" to={route.Items}/>
       </Tabs>
     </AppBar>

@@ -4,18 +4,28 @@ import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
 import Fade from "@material-ui/core/Fade";
 import { CardDialog } from "../dialogs";
+import { withRouter } from "react-router-dom";
+import { route } from "constants/routes";
 
-const ItemList = ({ items }) => {
+const ItemList = ({ items, history, match }) => {
+  // console.log("rest: ", match.params.id);
   const [hoveredID, hoverChange] = useState(-1);
-  const [activePersonID, onActivePersonIDChange] = useState(0);
-
+  const [activePersonID, onActivePersonIDChange] = useState(match.params.id);
   const hoverHandler = (e) => {
     hoverChange(e.currentTarget.getAttribute("itemid"));
   };
+
   const unhoverHandler = () => hoverChange(-1);
+
   const tileClickHandler = ({ currentTarget }) => {
     const itemID = currentTarget.getAttribute("itemid");
     onActivePersonIDChange(itemID);
+    history.push(`${match.path}${itemID}`);
+  };
+
+  const dialogCloseHandler = () => {
+    history.push(route.Items);
+    onActivePersonIDChange(0)
   };
 
   return (
@@ -36,8 +46,15 @@ const ItemList = ({ items }) => {
         items.map(item => {
           const flag = item.id == hoveredID;
           return (
-            <Fade key={item.id} in={true} timeout={1000}>
+            <Fade
+              key={item.id}
+              in={true}
+              timeout={1000}
+            >
               <GridListTile
+                style={{
+                  cursor: "pointer"
+                }}
                 onClick={tileClickHandler}
                 itemID={item.id}
                 onMouseOver={hoverHandler}
@@ -70,7 +87,7 @@ const ItemList = ({ items }) => {
       <CardDialog
         isOpen={activePersonID > 0}
         personId={activePersonID}
-        closeHandler={() => onActivePersonIDChange(0)}
+        closeHandler={dialogCloseHandler}
         flag={activePersonID > 0}
       />
     </GridList>
@@ -85,4 +102,4 @@ function areEqual({ items : prevItems }, { items : newItems }) {
   );
 }
 
-export default React.memo(ItemList, areEqual);
+export default React.memo(withRouter(ItemList), areEqual);

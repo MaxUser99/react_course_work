@@ -25,7 +25,7 @@ const MainPage = ({ history, trySaga }) => {
         Course Work App
       </Typography>
       <Typography variant="h5" align="center" color="textSecondary" paragraph>
-        Welcome to my chort and convinient course work app, also created on React and
+        Welcome to my chort and convinient course work app, also created on React
         with some 3d party libraries, such as redux, saga, axios and material-ui
       </Typography>
       <div>
