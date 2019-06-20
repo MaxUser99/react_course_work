@@ -65,6 +65,7 @@ const ItemList = ({ items, allItems, switchPage, currentPage, perPage, history, 
     >
       {
         items.map(item => {
+          // eslint-disable-next-line
           const flag = item.id == hoveredID;
           return (
             <Fade

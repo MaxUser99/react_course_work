@@ -18,7 +18,8 @@ const store = createStoreWithMiddleware(reducer, load(
   {
     states: ["user", "items", "perPage", "currentPage", "errors", "filters"],
     preloadedState: initialState,
-    namespace: storageName
+    namespace: storageName,
+    disableWarnings: true
   }
   ));
 sagaMiddleware.run(watcherSaga);

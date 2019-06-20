@@ -1,4 +1,5 @@
 import React from "react";
+// eslint-disable-next-line
 import {Dialog, withMobileDialog} from "@material-ui/core";
 
 const AuthDialog = ({ fullScreen, isOpen, closeHandler }) => {

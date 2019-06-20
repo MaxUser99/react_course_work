@@ -1,4 +1,4 @@
-import { takeEvery, call, put, delay, select, retry } from "redux-saga/effects";
+import { takeEvery, put, delay, select, retry } from "redux-saga/effects";
 import actionsTypes from "../actionTypes";
 import axios from "axios";
 import { addItem, onLoadFinish } from "store/actions";

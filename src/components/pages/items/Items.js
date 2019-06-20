@@ -33,6 +33,7 @@ const ItemsPage = (props) => {
     if (itemsLoadStatus === loadStatus.NONE) {
       startLoading();
     }
+    // eslint-disable-next-line
   }, []);
 
   const nameFilterChangeHandler = ({ target : {value} }) => { applyNameFilter(value) };

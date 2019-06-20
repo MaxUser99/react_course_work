@@ -4,8 +4,6 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
-  DialogTitle,
   TextField,
   withMobileDialog
 } from "@material-ui/core";
@@ -82,7 +80,9 @@ const EditDialog = ({fullScreen, isOpen, closeHandler, person, saveChanges}) => 
   );
 };
 
+// noinspection EqualityComparisonWithCoercionJS
 const mapStateToProps = (state, ownProps) => ({
+  // eslint-disable-next-line eqeqeq
   person: state.items.find(x => x.id == ownProps.personId)
 });
 
