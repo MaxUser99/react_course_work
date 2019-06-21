@@ -1,5 +1,6 @@
 import actionTypes from "./actionTypes";
 import { loadStatus } from "constants/loadStatus";
+import { LOGIN_STATUS } from "constants/userStatus";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -18,6 +19,10 @@ const reducer = (state, action) => {
     case actionTypes.EDIT_ITEM:
       const updatedItems = state.items.map(x => x.id === action.item.id ? action.item : x);
       return { ...state, items: updatedItems };
+    case actionTypes.LOGIN:
+      return { ...state, user: action.user, userStatus: action.status };
+    case actionTypes.LOGOUT:
+      return { ...state, user: {}, userStatus: LOGIN_STATUS.UNKNOWN };
     default:
       return state;
   }

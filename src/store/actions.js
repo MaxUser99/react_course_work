@@ -9,3 +9,7 @@ export const addItem = (item) => ({ type: actionTypes.ADD_ITEM, item });
 export const filterItems = (propName, value) => ({ type: actionTypes.FILTER_ITEMS, propName, value });
 export const changePage = newPageValue => ({ type: actionTypes.CHANGE_PAGE, newPageValue });
 export const editItem = item => ({ type: actionTypes.EDIT_ITEM, item });
+// auth
+export const login = (user, status) => ({ type: actionTypes.LOGIN, user, status });
+export const logout = () => ({ type: actionTypes.LOGOUT });
+export const authFailure = error => ({ type: actionTypes.AUTH_FAILURE, error});
