@@ -5,8 +5,9 @@ import {connect} from "react-redux";
 import { startLoading, filterItems } from "store/actions";
 import {loadStatus} from "constants/loadStatus";
 import {ItemList} from "./components";
+import { ItemHeader } from "./components";
 
-const ItemHeader = React.lazy(() => import("./components/ItemsHeader"));
+// const ItemHeader = React.lazy(() => import("./components/ItemsHeader"));
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -48,20 +49,20 @@ const ItemsPage = (props) => {
   const begin = perPage * currentPage;
   const end = begin + perPage;
   const itemsToShow = filteredItems.slice(begin, end);
+  console.log('items: ', itemsToShow);
   return (
     <div className={styles.root}>
-      <Suspense fallback={<span>loading</span>}>
-        <ItemHeader
-          currentPage={currentPage}
-          pageCount={Math.ceil(filteredItems.length / perPage)}
-          filterName={nameFilterChangeHandler}
-        />
-      </Suspense>
-      {
+      <ItemHeader
+        currentPage={currentPage}
+        pageCount={Math.ceil(filteredItems.length / perPage)}
+        filterName={nameFilterChangeHandler}
+      />
+      {/*
         itemsToShow.length
           ? <ItemList items={itemsToShow} />
           : <CircularProggress className={styles.progress}/>
-      }
+      */}
+      <ItemList items={itemsToShow} />
     </div>
   );
 };

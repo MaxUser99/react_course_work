@@ -8,8 +8,30 @@ import { withRouter } from "react-router-dom";
 import { route } from "constants/routes";
 import { connect } from "react-redux";
 import { changePage } from "store/actions";
+import {makeStyles} from "@material-ui/core";
+import EditDialog from "../dialogs/EditDialog";
 
-const ItemList = ({ items, allItems, switchPage, currentPage, perPage, history, match }) => {
+const useStyles = makeStyles({
+  root: {
+    alignItems: "flex-start",
+    alignContent: "flex-start",
+    overflowX: "hidden",
+    display: "flex",
+    width: "100%",
+    height: "100%",
+  },
+  tile: {
+    cursor: "pointer"
+  },
+  tileBar: {
+    transition: "150ms",
+    transitionTimingFunction: "easy-in",
+  }
+});
+
+const ItemList = ({
+  items, allItems, switchPage, perPage, history, match
+}) => {
   const [hoveredID, hoverChange] = useState(-1);
 
   const [activePersonID, onActivePersonIDChange] = useState(() => {
@@ -49,16 +71,11 @@ const ItemList = ({ items, allItems, switchPage, currentPage, perPage, history, 
     onActivePersonIDChange(0)
   };
 
+  const classes = useStyles();
+
   return (
     <GridList
-      style={{
-        alignItems: "flex-start",
-        alignContent: "flex-start",
-        overflowX: "hidden",
-        display: "flex",
-        width: "100%",
-        height: "100%",
-      }}
+      className={classes.root}
       cols={5}
       cellHeight={180}
       spacing={20}
@@ -74,9 +91,7 @@ const ItemList = ({ items, allItems, switchPage, currentPage, perPage, history, 
               timeout={1000}
             >
               <GridListTile
-                style={{
-                  cursor: "pointer"
-                }}
+                className={classes.tile}
                 onClick={tileClickHandler}
                 itemID={item.id}
                 onMouseOver={hoverHandler}
@@ -87,16 +102,15 @@ const ItemList = ({ items, allItems, switchPage, currentPage, perPage, history, 
                   alt="item"
                 />
                   <GridListTileBar
-                    style={{
-                      transition: "150ms",
-                      transitionTimingFunction: "easy-in",
-                    }}
+                    className={classes.tileBar}
                     title={item.name}
                     subtitle={flag && (
                       <Fade
                         in={true}
                         timeout={500}
-                        style={{ transitionDelay: flag ? "150ms" : "0ms"}}
+                        style={{
+                          transitionDelay: flag ? "150ms" : "0ms"
+                        }}
                       >
                         <span>{ item.species }</span>
                       </Fade>)}
@@ -106,33 +120,22 @@ const ItemList = ({ items, allItems, switchPage, currentPage, perPage, history, 
           )
         })
       }
-      <CardDialog
+      <EditDialog
         isOpen={activePersonID > 0}
         personId={activePersonID}
         closeHandler={dialogCloseHandler}
-        flag={activePersonID > 0}
       />
     </GridList>
   );
 };
 
-function areEqual({ items : prevItems }, { items : newItems }) {
-  const equalLengths = prevItems.length === newItems.length;
-  return equalLengths && newItems.reduce(
-    (flag, item, i) => (flag && item === prevItems[i]),
-    true
-  );
-  // return false;
-}
-
 const mapStateToProps = state => ({
   allItems: state.items,
-  perPage: state.perPage,
-  currentPage: state.currentPage
+    perPage: state.perPage,
 });
 
 const mapDispatchToProps = dispatch => ({
   switchPage: (newPage) => dispatch(changePage(newPage))
 });
 
-export default React.memo(connect(mapStateToProps, mapDispatchToProps)(withRouter(ItemList)), areEqual);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ItemList));

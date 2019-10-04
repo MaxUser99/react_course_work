@@ -5,14 +5,12 @@ import { Button } from "@material-ui/core";
 import { login, logout } from "store/actions";
 import { connect } from "react-redux";
 
-const FacebookButton = ({ login, logout }) => {
+const FacebookButton = ({ login, logout, loginStatus }) => {
   const [FB, setFBApi] = useState(window.FB);
-  const [loginStatus, setLoginStatus] = useState(LOGIN_STATUS.UNKNOWN);
 
   useEffect(() => {
     if (FB) {
       FB.Event.subscribe("auth.statusChange", ({ status }) => {
-        setLoginStatus(status);
         if(status === LOGIN_STATUS.UNKNOWN)
           logout();
       });
@@ -27,12 +25,10 @@ const FacebookButton = ({ login, logout }) => {
   }, [FB]);
 
   const fbLogout = () => {
-    console.log("click")
     FB.logout(() => {console.log("callback")});
   };
 
   const handleResponseFacebook = (response) => {
-    console.log("response: ", response);
     login(response, loginStatus);
   };
 
@@ -43,10 +39,13 @@ const FacebookButton = ({ login, logout }) => {
       fields="name,email,picture"
       scope="public_profile"
       callback={handleResponseFacebook}
-      render={props => {
-        const { onClick, isProcessing,  isSdkLoaded } = props; // isDisabled, isProcessing,
-        const text = loginStatus === LOGIN_STATUS.CONNECTED ? "Logout" : "Login";
-        const clickHandler = loginStatus === LOGIN_STATUS.CONNECTED ? fbLogout : onClick;
+      render={({ onClick, isProcessing,  isSdkLoaded }) => {
+        const text = loginStatus === LOGIN_STATUS.CONNECTED
+          ? "Logout"
+          : "Login";
+        const clickHandler = loginStatus === LOGIN_STATUS.CONNECTED
+          ? fbLogout
+          : onClick;
         return (
           <Button
             variant="outlined"
@@ -54,16 +53,24 @@ const FacebookButton = ({ login, logout }) => {
             onClick={clickHandler}
             disabled={!isSdkLoaded}
           >
-            { isProcessing ? "loading..."  : text}
+            {
+              isProcessing
+                ? "loading..."
+                : text
+            }
           </Button>
         )}}
     />
   );
 };
 
+const mapStateToProps = state => ({
+  loginStatus: state.userStatus
+});
+
 const mapDispatchToProps = dispatch => ({
   login: (user, status) => dispatch(login(user, status)),
   logout: (status) => dispatch(logout(status))
 });
 
-export default connect(null, mapDispatchToProps)(FacebookButton);
+export default connect(mapStateToProps, mapDispatchToProps)(FacebookButton);

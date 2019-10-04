@@ -20,7 +20,7 @@ const reducer = (state, action) => {
       const updatedItems = state.items.map(x => x.id === action.item.id ? action.item : x);
       return { ...state, items: updatedItems };
     case actionTypes.LOGIN:
-      return { ...state, user: action.user, userStatus: action.status };
+      return { ...state, user: action.user, userStatus: LOGIN_STATUS.CONNECTED };
     case actionTypes.LOGOUT:
       return { ...state, user: {}, userStatus: LOGIN_STATUS.UNKNOWN };
     default:

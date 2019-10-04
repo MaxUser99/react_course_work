@@ -4,15 +4,21 @@ import {Header, Main, Footer} from "./components/layout";
 import CssBaseline from '@material-ui/core/CssBaseline';
 import {Provider} from "react-redux";
 import {store} from "store";
+import { withStyles } from "@material-ui/core";
+
 import "./general.css";
 require('dotenv').config();
 
-function App() {
+const styles = {
+  root: {
+    minHeight: "100vh",
+    height: "100vh"
+  }
+};
+
+function App({ classes }) {
   return (
-    <div style={{
-      minHeight: "100vh",
-      height: "100vh"
-    }}>
+    <div className={classes.root}>
       <Provider store={store}>
         <BrowserRouter>
           <CssBaseline>
@@ -26,4 +32,4 @@ function App() {
   );
 }
 
-export default App;
+export default withStyles(styles)(App);
