@@ -5,7 +5,7 @@ import { Button } from "@material-ui/core";
 import { login, logout } from "store/actions";
 import { connect } from "react-redux";
 
-const FacebookButton = ({ login, logout, loginStatus }) => {
+const FacebookButton = ({ login, logout, loginStatus, ...buttonProps }) => {
   const [FB, setFBApi] = useState(window.FB);
 
   useEffect(() => {
@@ -52,6 +52,7 @@ const FacebookButton = ({ login, logout, loginStatus }) => {
             color="primary"
             onClick={clickHandler}
             disabled={!isSdkLoaded}
+            {...buttonProps}
           >
             {
               isProcessing

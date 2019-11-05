@@ -13,31 +13,38 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(8, 0, 6),
   },
+  button: {
+    width: "100%"
+  }
 }));
 
 const MainPage = ({ history, userName }) => {
+  const classes = useStyles();
+
   const continueClickHandler = () => {
     history.push(route.Items);
   };
 
-  console.log("userName: ", userName);
-  const classes = useStyles();
   return (
     <Container className={classes.mainContent} maxWidth="sm">
       <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
         Course Work App
       </Typography>
       <Typography variant="h5" align="center" color="textSecondary" paragraph>
-        Welcome to my chort and convinient course work app, also created on React
+        Welcome to my short and convinient course work app, also created on React
         with some 3d party libraries, such as redux, saga, axios and material-ui
       </Typography>
       <div>
         <Grid container spacing={2} justify="center">
-          <Grid item>
-            <FacebookButton />
+          <Grid item xs>
+            <FacebookButton className={classes.button} />
           </Grid>
-          <Grid item>
-            <Button variant="outlined" color="primary" onClick={continueClickHandler}>
+          <Grid item xs>
+            <Button
+              className={classes.button}
+              variant="outlined"
+              color="primary"
+              onClick={continueClickHandler}>
               Continue as { userName }
             </Button>
           </Grid>
@@ -48,7 +55,9 @@ const MainPage = ({ history, userName }) => {
 };
 
 const mapStateToProps = state => ({
-  userName: state.user.name ? state.user.name : "guest"
+  userName: state.user.name
+    ? state.user.name
+    : "guest"
 });
 
 export default connect(mapStateToProps)(MainPage);

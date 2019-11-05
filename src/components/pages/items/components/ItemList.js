@@ -3,13 +3,14 @@ import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
 import Fade from "@material-ui/core/Fade";
-import { CardDialog } from "../dialogs";
 import { withRouter } from "react-router-dom";
 import { route } from "constants/routes";
 import { connect } from "react-redux";
 import { changePage } from "store/actions";
 import {makeStyles} from "@material-ui/core";
 import EditDialog from "../dialogs/EditDialog";
+import LoadingGif from "assets/loading.gif";
+import ImageLoader from './ImageLoader';
 
 const useStyles = makeStyles({
   root: {
@@ -32,28 +33,21 @@ const useStyles = makeStyles({
 const ItemList = ({
   items, allItems, switchPage, perPage, history, match
 }) => {
+  const classes = useStyles();
   const [hoveredID, hoverChange] = useState(-1);
-
-  const [activePersonID, onActivePersonIDChange] = useState(() => {
-    const { params : { id }} = match;
-    const itemID = +id;
-    const includes = allItems.some(x => x.id === itemID);
-    return includes ? itemID : null;
-  });
+  const { params: { id : activePersonID } } = match;
 
   useEffect(() => {
-    const { params : { id }} = match;
-    if(!activePersonID && id) {
-      history.push(route.Items);
-    } else if(activePersonID) {
-      const existOnPage = items.some(x => x.id === activePersonID);
-      if(!existOnPage) {
-        const index = allItems.findIndex(x => x.id === activePersonID);
-        const targetPage = Math.floor(index / perPage);
-        switchPage(targetPage);
-      }
+    if (!activePersonID) return;
+
+    const itemExistOnPage = items.some(({ id }) => id === +activePersonID);
+    if (!itemExistOnPage) {
+      const index = allItems.findIndex(x => x.id === +activePersonID);
+      const targetPage = Math.floor(index / perPage);
+      switchPage(targetPage);
     }
-  });
+  })
+
   const hoverHandler = ({ currentTarget }) => {
     hoverChange(currentTarget.getAttribute("itemid"));
   };
@@ -62,16 +56,14 @@ const ItemList = ({
 
   const tileClickHandler = ({ currentTarget }) => {
     const itemID = currentTarget.getAttribute("itemid");
-    onActivePersonIDChange(+itemID);
     history.push(`${itemID}`);
   };
 
   const dialogCloseHandler = () => {
     history.push(route.Items);
-    onActivePersonIDChange(0)
   };
 
-  const classes = useStyles();
+  const person = allItems.find(({ id }) => id === +activePersonID);
 
   return (
     <GridList
@@ -82,8 +74,7 @@ const ItemList = ({
     >
       {
         items.map(item => {
-          // eslint-disable-next-line
-          const flag = item.id == hoveredID;
+          const flag = item.id === +hoveredID;
           return (
             <Fade
               key={item.id}
@@ -97,32 +88,33 @@ const ItemList = ({
                 onMouseOver={hoverHandler}
                 onMouseLeave={unhoverHandler}
               >
-                <img
-                  src={item.image}
-                  alt="item"
+                <ImageLoader
+                    src={ item.image}
+                    placeholder={LoadingGif}
                 />
-                  <GridListTileBar
-                    className={classes.tileBar}
-                    title={item.name}
-                    subtitle={flag && (
-                      <Fade
-                        in={true}
-                        timeout={500}
-                        style={{
-                          transitionDelay: flag ? "150ms" : "0ms"
-                        }}
-                      >
-                        <span>{ item.species }</span>
-                      </Fade>)}
-                  />
+                <GridListTileBar
+                  className={classes.tileBar}
+                  title={item.name}
+                  subtitle={flag && (
+                    <Fade
+                      in={true}
+                      timeout={500}
+                      style={{
+                        transitionDelay: flag ? "150ms" : "0ms"
+                      }}
+                    >
+                      <span>{ item.species }</span>
+                    </Fade>)}
+                />
               </GridListTile>
             </Fade>
           )
         })
       }
+
       <EditDialog
-        isOpen={activePersonID > 0}
-        personId={activePersonID}
+        isOpen={+activePersonID > 0}
+        person={person}
         closeHandler={dialogCloseHandler}
       />
     </GridList>
@@ -130,7 +122,7 @@ const ItemList = ({
 };
 
 const mapStateToProps = state => ({
-  allItems: state.items,
+    allItems: state.items,
     perPage: state.perPage,
 });
 

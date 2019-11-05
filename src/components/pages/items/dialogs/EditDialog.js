@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
   Button,
   Dialog,
@@ -10,21 +10,35 @@ import {
 import {connect} from "react-redux";
 import { editItem } from "store/actions";
 
-const EditDialog = ({fullScreen, isOpen, closeHandler, person, saveChanges}) => {
-  const [newPerson, personChangeHandler] = useState(person);
+const defaultPerson = {
+  image: '',
+  name: '',
+  status: '',
+  species: '',
+};
+
+const EditDialog = ({ fullScreen, isOpen, closeHandler, person, saveChanges }) => {
+  const [editPerson, changeHandler] = useState(person || defaultPerson);
+
+  useEffect(() => {
+    changeHandler(person);
+  }, [person]);
+
   const personDataChangeHandler = propName =>
     ({target: {value}}) => {
-      personChangeHandler({...newPerson, [propName]: value})
+      changeHandler(prevVal => ({ ...prevVal, [propName]: value }));
     };
+
   const resetClickHandler = () => {
-    console.log("person: ", person);
-    personChangeHandler(person)
+    changeHandler(person);
   };
 
   const saveChangesClickHandler = () => {
-    saveChanges(newPerson);
+    saveChanges(editPerson);
     closeHandler();
   };
+
+  if (!editPerson) return null;
 
   return (
     <Dialog
@@ -32,6 +46,8 @@ const EditDialog = ({fullScreen, isOpen, closeHandler, person, saveChanges}) => 
       fullScreen={fullScreen}
       onClose={closeHandler}
       open={isOpen}
+      keepMounted={false}
+
     >
       <DialogContent>
         <TextField
@@ -40,7 +56,7 @@ const EditDialog = ({fullScreen, isOpen, closeHandler, person, saveChanges}) => 
           label="Image URL"
           type="url"
           fullWidth
-          value={newPerson.image}
+          value={editPerson.image}
           onChange={personDataChangeHandler("image")}
         />
         <TextField
@@ -49,7 +65,7 @@ const EditDialog = ({fullScreen, isOpen, closeHandler, person, saveChanges}) => 
           label="Name"
           type="text"
           fullWidth
-          value={newPerson.name}
+          value={editPerson.name}
           onChange={personDataChangeHandler("name")}
         />
         <TextField
@@ -58,7 +74,7 @@ const EditDialog = ({fullScreen, isOpen, closeHandler, person, saveChanges}) => 
           label="Status"
           type="text"
           fullWidth
-          value={newPerson.status}
+          value={editPerson.status}
           onChange={personDataChangeHandler("status")}
         />
         <TextField
@@ -67,27 +83,21 @@ const EditDialog = ({fullScreen, isOpen, closeHandler, person, saveChanges}) => 
           label="Species"
           type="text"
           fullWidth
-          value={newPerson.species}
+          value={editPerson.species}
           onChange={personDataChangeHandler("species")}
         />
       </DialogContent>
       <DialogActions>
         <Button onClick={closeHandler}>Cancel</Button>
-        <Button onClick={resetClickHandler}>Reset</Button>
+        <Button type='reset' onClick={resetClickHandler}>Reset</Button>
         <Button onClick={saveChangesClickHandler}>Save</Button>
       </DialogActions>
     </Dialog>
   );
 };
 
-// noinspection EqualityComparisonWithCoercionJS
-const mapStateToProps = (state, ownProps) => ({
-  // eslint-disable-next-line eqeqeq
-  person: state.items.find(x => x.id == ownProps.personId)
-});
-
 const mapDispatchToProps = dispatch => ({
   saveChanges: changedItem => dispatch(editItem(changedItem))
 });
 
-export default withMobileDialog()(connect(mapStateToProps, mapDispatchToProps)(EditDialog));
+export default withMobileDialog()(connect(null, mapDispatchToProps)(EditDialog));

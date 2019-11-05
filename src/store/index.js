@@ -9,14 +9,14 @@ const storageName = "course_work";
 const sagaMiddleware = createSagaMiddleware();
 const middlewares = [
   save({
-    states: ["items", "perPage", "currentPage", "errors", "filters"],
+    states: ["items"],
     namespace: storageName
   }),
   sagaMiddleware];
 const createStoreWithMiddleware = applyMiddleware(...middlewares)(createStore);
 const store = createStoreWithMiddleware(reducer, load(
   {
-    states: ["items", "perPage", "currentPage", "errors", "filters"],
+    states: ["items"],
     preloadedState: initialState,
     namespace: storageName,
     disableWarnings: true
